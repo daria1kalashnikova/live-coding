@@ -1,0 +1,26 @@
+.title {
+  font-size: 22px;
+  font-weight: 600;
+}
+.parent-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.list-item {
+  border: 1px solid black;
+}
+
+.list-item img {
+  max-width: 150px;
+}
+
+.item-title {
+}
+.item-description {
+}
+.item-rating {
+}
+.item-price {
+}
