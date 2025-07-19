@@ -1,5 +1,6 @@
 import { ProductsApiResponse, ProductsGetAllResponse } from "./api";
 import { productsService } from "./api";
+import { AppComponent } from "./App.component";
 import { newRenderRatingFeature } from "./star-script";
 
 const parentList = document.querySelector(".parent-list") as HTMLUListElement;
@@ -33,16 +34,22 @@ const renderProducts = (
   container.insertAdjacentHTML("beforeend", productsHTML.join(""));
 };
 
-const init = async () => {
+export const init = async (parent:HTMLUListElement) => {
   const [productsData, error] = await fatchProducts();
   if (error != null && productsData === null) {
     return;
   }
-  renderProducts(productsData, parentList);
+  renderProducts(productsData, parent);
 
-  productsData.products.forEach((product) => {
-    newRenderRatingFeature(`[data-item-id="${product.id}"]`, product.rating);
-  });
+  // productsData.products.forEach((product) => {
+  //   newRenderRatingFeature(`[data-item-id="${product.id}"]`, product.rating);
+  // });
 };
 
-init();
+const rootDiv = document.querySelector(
+  "#root"
+) as HTMLDivElement;
+rootDiv.textContent = '';
+
+const appComponent = AppComponent();
+rootDiv.append(appComponent.element);
