@@ -1,4 +1,7 @@
-import { Product } from "../api";
+import { Product } from "../../domain/types";
+import { EVENTS } from "../../utils/constants";
+import { Event, Subscriber } from "../../utils/types";
+
 
 type State = {
   products: {
@@ -17,47 +20,48 @@ const _state: State = {
 };
 
 export const getProductItems = (): Product[] => {
-    const itemsCopy = [..._state.products.items];
-    return itemsCopy;
-}
+  const itemsCopy = [..._state.products.items];
+  return itemsCopy;
+};
 
 export const getProductLoadingState = (): boolean => {
-    return _state.products.isLoading;
-}
+  return _state.products.isLoading;
+};
 
 export const getProductsErrorState = (): boolean => {
-    return _state.products.isError;
-}
+  return _state.products.isError;
+};
 
 export const setProductItems = (newProducts: Product[]): void => {
-    _state.products.items = newProducts;
-    notifySubscribers("set/products", _state.products.items);
-}
+  _state.products.items = newProducts;
+  notifySubscribers(EVENTS.SET_PRODUCTS, _state.products.items);
+};
 
-//Publisher subscriber 
-let subscribers: unknown[] = [];
+//Publisher subscriber
 
-export const notifySubscribers = (eventName, payload = {}) => {
-    const event = {
-        name: eventName,
-        payload,
+
+let subscribers: Subscriber[] = [];
+
+
+export const notifySubscribers = (eventName: EVENTS, payload: unknown = {}) => {
+  const event: Event = {
+    name: eventName,
+    payload,
+  };
+
+  subscribers.forEach((subscriber) => {
+    try {
+      if (typeof subscriber === "function") subscriber(event);
+    } catch (err) {
+      console.error(err);
     }
+  });
+};
 
-    subscribers.forEach(subscriber => {
-        try {
-            subscribe(event);
-        } catch (err) {
-            console.error(err)
-        }
-    })
-}
+export const subscribe = (subscriber: Subscriber): void => {
+  subscribers.push(subscriber);
+};
 
-export const subscribe = (subscriber: unknown): void => {
-    subscribers.push(subscriber);
-}
-
-export const unsubscrinbe = (subscriber: unknown): void => {
-    subscribers = subscribers.filter(el => el !== subscriber);
-}
-
-
+export const unsubscribe = (subscriber: Subscriber): void => {
+  subscribers = subscribers.filter((el) => el !== subscriber);
+};
