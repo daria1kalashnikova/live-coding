@@ -1,5 +1,7 @@
-import { ProductsApiResponse, ProductsGetAllResponse } from "../domain/types";
-
+import {
+  ProductsApiResponse,
+  ProductsGetAllResponse,
+} from "../../domain/types";
 
 export const productsService = {
   baseUrl: "https://dummyjson.com",
@@ -14,7 +16,6 @@ export const productsService = {
     }
   },
 };
-
 
 export { ProductsGetAllResponse };
 // const [data, error] = await productService.getAll();

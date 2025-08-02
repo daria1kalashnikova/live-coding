@@ -1,5 +1,6 @@
 import { EVENTS } from "../../utils/constants";
 import { getProductItems, subscribe } from "../store/state";
+import { ProductCard } from "./ProductCard/ProductCard.component";
 
 export const ProductsList = () => {
     const productListElement: HTMLUListElement = document.createElement("ul");
@@ -22,23 +23,15 @@ function render(container: HTMLUListElement) {
 
   const products = getProductItems();
 
-  const productsHTML = products.map(
-    (el) =>
-      `<li class="list-item" data-item-id="${el.id}">
-    <div class="item-rating-container">
-    <p class="item-rating-value">${el.rating}</p>
-    <div class="item-rating-list"  data-rating="${el.rating}"> 
-    
-     </div>
-     </div>
-     
-        <img src="${el.thumbnail}" alt="${el.title}" />
-        <h3 class="item-title truncate-multiline">${el.title}</h3>
-        <p class="item-description  truncate-multiline">${el.description}</p>
-        <p class="item-price">${el.price} euro </p>
-      </li>
-    `
+  const productElements: HTMLLIElement[] = products.map(
+    (el) => { 
+
+      const productCardComponent = ProductCard({ product: el});
+
+      return productCardComponent.element;
+
+    }
   );
 
-  container.insertAdjacentHTML("beforeend", productsHTML.join(""));
+  container.append(...productElements);
 }

@@ -1,8 +1,6 @@
-import { ProductsList } from "./components/ProductsList.component";
-import { fetchProducts } from "./helpers/fetchProducts";
-import { setProductItems } from "./store/state";
-
-
+import { ProductsList } from "./ProductsList.component";
+import { fetchProducts } from "../helpers/fetchProducts";
+import { setProductItems } from "../store/state";
 
 export const AppComponent = () => {
   const appElement: HTMLDivElement = document.createElement("div");
@@ -20,15 +18,15 @@ const render = (containerElement: HTMLDivElement) => {
 
   const productListComponent = ProductsList();
 
-    containerElement.append(productListComponent.element);
+  containerElement.append(productListComponent.element);
 
-    const button = document.createElement('button');
-    button.textContent = "clear products";
-    button.onclick = () => {
-        setProductItems([])
-    }
+  const button = document.createElement("button");
+  button.textContent = "clear products";
+  button.onclick = () => {
+    setProductItems([]);
+  };
 
-    containerElement.append(button)
+  containerElement.append(button);
 };
 
 // const SomeComponent = (props) => return {
