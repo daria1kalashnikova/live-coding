@@ -1,4 +1,4 @@
-import { AppComponent } from "./components/App.component";
+import { AppComponent } from "../pages/main-page/ui/App.component";
 
 const rootDiv = document.querySelector("#root") as HTMLDivElement;
 rootDiv.textContent = "";

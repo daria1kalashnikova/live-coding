@@ -1,4 +1,4 @@
-import { Product } from "../../../domain/types";
+import { Product } from "../../model/types";
 
 type ProductCardProps = {
   product: Product;

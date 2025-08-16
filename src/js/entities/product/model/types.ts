@@ -43,11 +43,3 @@ export interface Meta {
   barcode: string;
   qrCode: string;
 }
-
-export type ProductsApiResponse = {
-  products: Product[];
-};
-
-export type ProductsGetAllResponse =
-  | [ProductsApiResponse, null]
-  | [null, Error];

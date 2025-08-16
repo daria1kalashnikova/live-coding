@@ -2,8 +2,8 @@
 
 }
 
-.item-rating-value {
-
+.item-rating-value { 
+    font-size: 16px;
 }
 
 .item-rating-list {
@@ -15,7 +15,7 @@
 }
 
 .item-title {
-
+    border: 1px solid red;
 }
 
 .item-description {

@@ -1,11 +1,15 @@
-import { ProductsList } from "./ProductsList.component";
-import { fetchProducts } from "../helpers/fetchProducts";
-import { setProductItems } from "../store/state";
+import { ProductsList } from "../../../widgets/product-list/ui/ProductsList.component.js";
+import { fetchProducts } from "../../../entities/product/api/fetchProducts.js";
+import { setProductItems } from "../../../app/store/state.js";
+import { ClearProductButton } from "../../../features/clear-products/ui/ClearProductButton.component.js";
 
 export const AppComponent = () => {
   const appElement: HTMLDivElement = document.createElement("div");
 
   fetchProducts().then(([productsData, error]) => {
+
+    console.log(productsData);
+
     if (productsData !== null) setProductItems(productsData.products);
   });
   render(appElement);
@@ -20,13 +24,10 @@ const render = (containerElement: HTMLDivElement) => {
 
   containerElement.append(productListComponent.element);
 
-  const button = document.createElement("button");
-  button.textContent = "clear products";
-  button.onclick = () => {
-    setProductItems([]);
-  };
+  const button = ClearProductButton();
 
-  containerElement.append(button);
+
+  containerElement.append(button.element);
 };
 
 // const SomeComponent = (props) => return {

@@ -1,7 +1,7 @@
-import { Product } from "../../domain/types";
-import { EVENTS } from "../../utils/constants";
-import { Event, Subscriber } from "../../utils/types";
+import { EVENTS } from "../../shared/libs/constants";
 
+import { Product } from "../../entities/product/model/types";
+import { Event, Subscriber } from "../../shared/libs/types";
 
 type State = {
   products: {
@@ -34,14 +34,13 @@ export const getProductsErrorState = (): boolean => {
 
 export const setProductItems = (newProducts: Product[]): void => {
   _state.products.items = newProducts;
+  console.log(newProducts);
   notifySubscribers(EVENTS.SET_PRODUCTS, _state.products.items);
 };
 
 //Publisher subscriber
 
-
 let subscribers: Subscriber[] = [];
-
 
 export const notifySubscribers = (eventName: EVENTS, payload: unknown = {}) => {
   const event: Event = {
