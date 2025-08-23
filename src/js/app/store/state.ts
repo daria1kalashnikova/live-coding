@@ -9,6 +9,7 @@ type State = {
     isLoading: boolean;
     isError: boolean;
   };
+  filterTerm: string;
 };
 
 const _state: State = {
@@ -17,6 +18,7 @@ const _state: State = {
     isLoading: false,
     isError: false,
   },
+   filterTerm: ""
 };
 
 export const getProductItems = (): Product[] => {
@@ -38,6 +40,15 @@ export const setProductItems = (newProducts: Product[]): void => {
   notifySubscribers(EVENTS.SET_PRODUCTS, _state.products.items);
 };
 
+export const getFilterTerm = (): string => {
+  return _state.filterTerm;
+}
+
+export const setFilterTerm = (term: string): void => {
+  _state.filterTerm = term;
+  notifySubscribers(EVENTS.SET_SEARCH_FILTER_TERM, term);
+};
+
 //Publisher subscriber
 
 let subscribers: Subscriber[] = [];
@@ -47,6 +58,8 @@ export const notifySubscribers = (eventName: EVENTS, payload: unknown = {}) => {
     name: eventName,
     payload,
   };
+
+  console.log('_state', _state)
 
   subscribers.forEach((subscriber) => {
     try {

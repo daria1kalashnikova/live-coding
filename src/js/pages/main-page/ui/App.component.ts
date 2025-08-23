@@ -2,6 +2,7 @@ import { ProductsList } from "../../../widgets/product-list/ui/ProductsList.comp
 import { fetchProducts } from "../../../entities/product/api/fetchProducts.js";
 import { setProductItems } from "../../../app/store/state.js";
 import { ClearProductButton } from "../../../features/clear-products/ui/ClearProductButton.component.js";
+import { FilterBySearch } from "../../../features/filter-by-search/ui/FilterBySearch.component.js";
 
 export const AppComponent = () => {
   const appElement: HTMLDivElement = document.createElement("div");
@@ -21,13 +22,16 @@ const render = (containerElement: HTMLDivElement) => {
   containerElement.textContent = "";
 
   const productListComponent = ProductsList();
+  const input = FilterBySearch();
+   const button = ClearProductButton();
+  
+  containerElement.append(input.element);
+
+  containerElement.append(button.element);
 
   containerElement.append(productListComponent.element);
 
-  const button = ClearProductButton();
-
-
-  containerElement.append(button.element);
+  
 };
 
 // const SomeComponent = (props) => return {
