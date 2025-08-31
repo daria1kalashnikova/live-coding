@@ -4,11 +4,14 @@ import {
   subscribe,
 } from "../../../app/store/state";
 import { EVENTS } from "../../../shared/libs/constants";
+import { debounce } from "../../../shared/libs/debounce";
+import { LocalState } from "../model/types";
 
 export const FilterBySearch = () => {
   const filterContainer = document.createElement("label");
-  const localState = {
+  const localState: LocalState = {
     wasFocused: false,
+    innerValue: "",
   };
 
   subscribe((event) => {
@@ -25,7 +28,7 @@ export const FilterBySearch = () => {
 
 const render = (
   container: HTMLLabelElement,
-  localState: { wasFocused: boolean }
+  localState: LocalState
 ) => {
   container.textContent = "";
   const span = document.createElement("span");
@@ -38,7 +41,8 @@ const render = (
 
   input.onfocus = () => (localState.wasFocused = true);
   document.onclick = (e: MouseEvent) => {
-    if (!(e?.currentTarget as HTMLElement)?.closest("#filter-by-search")) {
+    if (!e.currentTarget) return;
+    if (!(e.currentTarget as HTMLElement).closest("#filter-by-search")) {
       console.log("blur");
       localState.wasFocused = false;
     }
@@ -46,12 +50,18 @@ const render = (
 
   input.oninput = ({ currentTarget }) => {
     if (currentTarget !== null) {
-      setFilterTerm((currentTarget as HTMLInputElement).value);
+      localState.innerValue = (currentTarget as HTMLInputElement).value;
+      console.log("123");
+
+      const debouncedFilter = debounce(setFilterTerm, 1000);
+
+      debouncedFilter((currentTarget as HTMLInputElement).value)
     }
   };
 
-  const filterTerm = getFilterTerm();
-  input.value = filterTerm;
+
+  // const filterTerm = getFilterTerm();
+  input.value = localState.innerValue;
 
   container.append(span);
   container.append(input);
